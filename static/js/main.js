@@ -2,7 +2,7 @@
 	function G(id) {
 		return document.getElementById(id);
 	}//获取id函数
-
+	
 var map = new BMap.Map("allmap");//地图实例
 	var point = new BMap.Point(106.55544,291.576526);
 	map.centerAndZoom(point,12);
@@ -10,51 +10,92 @@ var map = new BMap.Map("allmap");//地图实例
 	map.enableScrollWheelZoom();//启用鼠标滚轮
 var p;	//起点
 var p1; //终点
-var data;
-var data_obj = {};
-var geolocation = new BMap.Geolocation();
-geolocation.getCurrentPosition(function(r){
-	if(this.getStatus() == BMAP_STATUS_SUCCESS){
-		var mk = new BMap.Marker(r.point);
-		map.addOverlay(mk);
-		map.panTo(r.point);
-		map.centerAndZoom(r.point,12);
-		mk.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画*/
-		var circle = new BMap.Circle(r.point,10000,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3});/*创建一个圆实例*/
-		map.addOverlay(circle);/*将圆添加到地图中*/
-		var local =  new BMap.LocalSearch(map, {renderOptions: {map: map, panel: "r-result"}}); /*查找*/
-		local.searchNearby('洗车',r.point,10000);/*调用查找*/
-		point.lng = r.point.lng;
-		point.lat = r.point.lat;
-		var options = {
-				onSearchComplete: function(results){
-					// 判断状态是否正确
-					if (local.getStatus() == BMAP_STATUS_SUCCESS){
-						var s = [];
-						for (var i = 0; i < results.getCurrentNumPois(); i ++){
-							s.push(results.getPoi(i).title);
-							data = s;
-						}
-						for(var i = 0;i < data.length;i++){
-							/* console.info(data[i]); */
-							/* data_obj添加数据 */
-							var key = data[i];
-							var val = data[i];
-							data_obj[key] = val;
-						}
-						localStorage.setItem('map_dt',JSON.stringify(data_obj)); // 存入本地文件
-						
-					}
-				}
-			};
-			var local = new BMap.LocalSearch(map, options);
-			local.searchNearby('洗车',r.point,10000);/*调用查找*/
+//var a=[];
+var ret = G("ret").innerHTML;//获取服务器放在页面的数据
+ret=JSON.parse(ret);
+var j=1;
+//转化字符数组
+/*for(var i =	0 , j = 0 ; i < ret.length ; i++){
+	if(ret[i]==','){
+		a[j]=parseFloat(k);
+		j++;
+		t=j;
+		k="";
+		continue;
 	}
-	else {
-		alert("无法为您定位,请确认是否开启GPS");
-	}        
-});
+	k+=ret[i];	
+}
+a[t]=parseFloat(k);
+*/
+var geolocation = new BMap.Geolocation();
+dwjs();
+function gotohere(point){
+	var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true}});
+	driving.search(p,point);//规划驾车路线	
+}
+//定位检索函数
+function dwjs(){
+	geolocation.getCurrentPosition(function(r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			var mk = new BMap.Marker(r.point);
+			map.addOverlay(mk);
+			map.panTo(r.point);
+			p=r.point;
+			map.centerAndZoom(r.point,14);
+			mk.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画*/
+			var circle = new BMap.Circle(r.point,5000,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3});/*创建一个圆实例*/
+			map.addOverlay(circle);/*将圆添加到地图中*/
+			
+			for(var i = 0 ; i < ret.length ; i++){
+				let point = new BMap.Point(ret[i].lng,ret[i].lat);
 
+				//判断点是否在圆内
+				if(BMapLib.GeoUtils.isPointInCircle(point,circle)){
+					ret[i].data=j;
+					j++;
+					let mk = new BMap.Marker(point);
+					
+					map.addOverlay(mk);
+					let opts = {
+						width : 200,     // 信息窗口宽度
+						height: 120,     // 信息窗口高度
+						title : ret[i].shop_realname , // 信息窗口标题
+						enableMessage:true,//设置允许信息窗发送短息
+						message:ret[i].shop_realname
+					}
+					//<a href="">预约洗车</a>
+					var html = '地址:'+ret[i].address+'</br><a href="http://localhost:9990/confirm_order?shop_id='+ret[i].shop_id+'" class="button">预约洗车</a> ';
+					//html+='<input onclick="gotoWhere(point);" type="button" value="立即洗车" style="margin-top:20px"/>';
+					var infoWindow = new BMap.InfoWindow(html, opts);  // 创建信息窗口对象 
+					infoWindow.enableCloseOnClick();
+					
+					//设置数字标签
+					var label = new BMap.Label(ret[i].data, {
+						offset : new BMap.Size(5, 4)
+					}); 
+					label.setStyle({
+						background:'none',color:'#fff',border:'none'//只要对label样式进行设置就可达到在标注图标上显示数字的效果
+					});
+					mk.setLabel(label);
+					mk.addEventListener("click", (function(){     
+						map.openInfoWindow(infoWindow,point); //开启信息窗口
+						//a=this.getPosition();//此时算拿到数据了
+						//console.log(a);能打印出数据
+						G("gotowhere").addEventListener("click",(function(){
+							gotohere(point);
+						}))
+					})); 
+				}
+			}
+	}
+	});
+}
+
+//立即洗车
+function gotoWhere(point){
+	var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true}});
+	driving.search(p,point);//规划驾车路线
+}
 
 /*地点输入提示*/
 var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
@@ -118,7 +159,7 @@ var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
     address += e.addressComponent.street;
     address += e.addressComponent.streetNumber;
     alert("当前定位地址为：" + address);
-	map.centerAndZoom(address,12);
+	map.centerAndZoom(address,14);
   });
   geolocationControl.addEventListener("locationError",function(e){
     // 定位失败事件
@@ -127,44 +168,8 @@ var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
   
   map.addControl(geolocationControl);
 /*定位按钮 end-------------------------------------------*/
-/*设置铅点*/
-var myIcon = new BMap.Icon("http://lbsyun.baidu.com/jsdemo/img/Mario.png", new BMap.Size(32, 70), {    //小车图片
-		//offset: new BMap.Size(0, -5),    //相当于CSS精灵
-		imageOffset: new BMap.Size(0, 0)    //图片的偏移量。为了是图片底部中心对准坐标点。
-	  });
-	var driving2 = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true}});    //驾车实例
-	driving2.search(p, p1);    //显示一条公交线路
 
-	window.run = function (){
-		var driving = new BMap.DrivingRoute(map);    //驾车实例
-		driving.search(p, p1);
-		driving.setSearchCompleteCallback(function(){
-			var pts = driving.getResults().getPlan(0).getRoute(0).getPath();    //通过驾车实例，获得一系列点的数组
-			var paths = pts.length;    //获得有几个点
-
-			var carMk = new BMap.Marker(pts[0],{icon:myIcon});
-			map.addOverlay(carMk);
-			i=0;
-			function resetMkPoint(i){
-				carMk.setPosition(pts[i]);
-				if(i < paths){
-					setTimeout(function(){
-						i++;
-						resetMkPoint(i);
-					},100);
-				}
-			}
-			setTimeout(function(){
-				resetMkPoint(5);
-			},100)
-
-		});
-	}
-
-	setTimeout(function(){
-		run();
-	},1500);
-/*设置铅点 end*/
+//驾车路线
 G("SS").onclick=function(){
 	var driving = new BMap.DrivingRoute(map);
 	console.info(G("suggestId").value);
@@ -181,46 +186,12 @@ G("SS").onclick=function(){
 	driving.search(point,pp);//规划驾车路线		
 }
 
+
+//刷新地图
 G("refresh").onclick=function(){
-	map.clearOverlays(); 
-	geolocation.getCurrentPosition(function(r){
-		if(this.getStatus() == BMAP_STATUS_SUCCESS){
-			var mk = new BMap.Marker(r.point);
-			map.addOverlay(mk);
-			map.panTo(r.point);
-			map.centerAndZoom(r.point,12);
-			mk.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画*/
-			var circle = new BMap.Circle(r.point,10000,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3});/*创建一个圆实例*/
-			map.addOverlay(circle);/*将圆添加到地图中*/
-			var local =  new BMap.LocalSearch(map, {renderOptions: {map: map, panel: "r-result"}}); /*查找*/
-			local.searchNearby('洗车',r.point,10000);/*调用查找*/
-			point.lng = r.point.lng;
-			point.lat = r.point.lat;
-			var options = {
-					onSearchComplete: function(results){
-						// 判断状态是否正确
-						if (local.getStatus() == BMAP_STATUS_SUCCESS){
-							var s = [];
-							for (var i = 0; i < results.getCurrentNumPois(); i ++){
-								s.push(results.getPoi(i).title);
-								data = s;
-							}
-							for(var i = 0;i < data.length;i++){
-								/* console.info(data[i]); */
-								/* data_obj添加数据 */
-								var key = data[i];
-								var val = data[i];
-								data_obj[key] = val;
-							}
-							localStorage.setItem('map_dt',JSON.stringify(data_obj)); // 存入本地文件
-						}
-					}
-				};
-				var local = new BMap.LocalSearch(map, options);
-				local.searchNearby('洗车',r.point,10000);/*调用查找*/
-		}
-		else {
-			alert("无法为您定位,请确认是否开启GPS");
-		}        
-	});
-};
+	j=1;//重新添加标签
+	map.clearOverlays();//清除所有覆盖物
+	dwjs();//调用定位检索函数
+}
+
+

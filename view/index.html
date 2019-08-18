@@ -1,158 +1,181 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <title></title>
-    <script src="js/mui.min.js"></script>
-    <link href="css/mui.min.css" rel="stylesheet"/>
-	<link rel="stylesheet" href="css/index.css">
-	<script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=fuDX7e06bRuvDz91uE9bK6lNY9HbPpcE"></script>
-	<script type="text/javascript" charset="utf-8">
-	
-      	mui.init();
-		//加载新页面
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/index.css">
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=eCgSCowvS31A3G7Z6ficBZXivl0XRtc7"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/library/GeoUtils/1.2/src/GeoUtils_min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+			//加载新页面
 
 
-		
-		mui.plusReady(function(){
-			//订单页面打开
-			document.getElementById('dingdan').addEventListener('tap', function() {
-				mui.openWindow({
-					url: 'dingdan.html', 
-					id:'dingdan.html',
-					show:{
-						aniShow:'slide-in-left',//页面显示动画，默认为”slide-in-right“；
-						duration:'100'//页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
-					}
-				});
-			});
-			
-			//钱包页面打开
-			document.getElementById('qianbao').addEventListener('tap', function() {
-				mui.openWindow({
-					url: 'qianbao.html', 
-					id:'qianbao.html',
-					show:{
-						aniShow:'slide-in-left',//页面显示动画，默认为”slide-in-right“；
-						duration:'100'//页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
-					} 
-				});
-			});
-			
-			//设置页面打开
-			document.getElementById('shezhi').addEventListener('tap', function() {
-				mui.openWindow({
-					url: 'shezhi.html', 
-					id:'shezhi.html',
-					show:{
-						aniShow:'slide-in-left',//页面显示动画，默认为”slide-in-right“；
-						duration:'100'//页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
-					}
-				});
-			});
-			
-			//头像点击登陆(个人信息)
-			document.getElementById('touxiang').addEventListener('tap', function() {
-				mui.openWindow({
-					url: 'shezhi.html', 
-					id:'shezhi',
-					show:{
-						aniShow:'slide-in-left',//页面显示动画，默认为”slide-in-right“；
-						duration:'100'//页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
-					}
-				});
-			});
-			
-			//预约按钮点击
-			document.getElementById('yybtn').addEventListener('tap', function() {
-				mui.openWindow({
-					url: 'index/yuyue.html',
-					id:'yuyue',
-					show:{
-						aniShow:'slide-in-left',//页面显示动画，默认为”slide-in-right“；
-						duration:'100'//页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
-					}
-				});
-			});
-			
-			
-			//返回按键
-					var old_back = mui.back;
-					var backButtonPress = 0;
-					mui.back = function(event) {
-						backButtonPress++;
-						if (backButtonPress > 1) {
-							plus.runtime.quit();
-						} else {
-							plus.nativeUI.toast('再按一次退出');
+
+			mui.plusReady(function() {
+
+				//订单页面打开
+				document.getElementById('dingdan').addEventListener('tap', function() {
+					mui.openWindow({
+						url: 'dingdan.html',
+						id: 'dingdan_page',
+						show: {
+							aniShow: 'slide-in-left', //页面显示动画，默认为”slide-in-right“；
+							duration: '100' //页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
 						}
-						setTimeout(function() {
-							backButtonPress = 0;
-						}, 1000);
-						return false;
+					});
+				});
+
+				//钱包页面打开
+				document.getElementById('qianbao').addEventListener('tap', function() {
+					mui.openWindow({
+						url: 'qianbao.html',
+						id: 'qianbao_page',
+						show: {
+							aniShow: 'slide-in-left', //页面显示动画，默认为”slide-in-right“；
+							duration: '100' //页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
+						}
+					});
+				});
+
+				//店铺页面打开
+				document.getElementById('dianpu').addEventListener('tap', function() {
+					function allshop_list() {
+						mui.get('http://ghq.free.idcfengye.com/car_wash/All_Shop_List', {
+
+						}, function(data) {
+							//服务器返回响应，根据响应结果，分析是否登录成功；
+							console.info('index data:'+data);
+							localStorage.setItem('all_shop',data);
+						}, 'text');
 					};
-			var tt = document.getElementById("tangram-suggestion--TANGRAM__1o-main");
-			tt.style.zIndex="10";
-			
-		});
-		
-    </script>
+					allshop_list();
+					mui.openWindow({
+						url: 'dianpu.html',
+						id: 'dianpu_page',
+						show: {
+							aniShow: 'slide-in-left', //页面显示动画，默认为”slide-in-right“；
+							duration: '100' //页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
+						}
+					});
+				});
 
-    
+				//设置页面打开
+				document.getElementById('shezhi').addEventListener('tap', function() {
+					mui.openWindow({
+						url: 'shezhi.html',
+						id: 'shezhi_page',
+						show: {
+							aniShow: 'slide-in-left', //页面显示动画，默认为”slide-in-right“；
+							duration: '100' //页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
+						}
+					});
+				});
 
-</head>
-<body>
-	<!-- 缩放式侧滑（类手机QQ） -->
-	<!-- 侧滑导航根容器 -->
-	<div class="mui-off-canvas-wrap mui-draggable mui-scalable">
-	  <!-- 菜单容器 <-->
-	  <aside class="mui-off-canvas-left mui-transitioning" id="offCanvasSide">
-		<div class="mui-scroll-wrapper cehua">
-		  <div class="mui-scroll">
-			<!-- 菜单具体展示内容 -->
-			
-			<div class="touxiang" id="touxiang" style="background-image: url(images/touxiang.jpg);background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;"></div>
-				
-			<ul class="mui-table-view" style="width: 100%;">	
-				<li class="mui-table-view-cell border-none" id="dingdan">订单</li>
-				<li class="mui-table-view-cell border-none" id="qianbao">钱包</li>
-				<li class="mui-table-view-cell border-none" id="shezhi">设置</li>
-			</ul>
+				//头像点击登陆(个人信息)
+				document.getElementById('touxiang').addEventListener('tap', function() {
+					mui.openWindow({
+						url: 'shezhi.html',
+						id: 'shezhi_page',
+						show: {
+							aniShow: 'slide-in-left', //页面显示动画，默认为”slide-in-right“；
+							duration: '100' //页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
+						}
+					});
+				});
 
-		  </div>
-		</div>
-	  </aside>
-		  <!-- 主页面容器 -->
-		<div class="mui-inner-wrap mui-transitioning">
-			<!-- 主页面标题 -->
-			<header class="mui-bar mui-bar-nav">
-			  <a class="mui-icon mui-action-menu mui-icon-bars mui-pull-left" href="#offCanvasSide"></a>
-			  <h1 class="mui-title">雲芯洗车</h1>
-			</header>
-			
-			<div class="mui-content mui-scroll-wrapper">
-				<div class="mui-scroll">
-				<!-- 主界面具体展示内容 -->
-					<div id="allmap" class="allmap"></div>
-					<div class="sr">
-						<div class="point" id="SS"></div>
-						<input type="text" id="suggestId" class="mui-input-clear">
+				//预约按钮点击
+				document.getElementById('Button1').addEventListener('tap', function() {
+					mui.openWindow({
+						url: 'index/yuyue',
+						id: 'yuyue_page',
+						show: {
+							aniShow: 'slide-in-left', //页面显示动画，默认为”slide-in-right“；
+							duration: '100' //页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
+						}
+					});
+				});
+
+
+				//返回按键
+				var old_back = mui.back;
+				var backButtonPress = 0;
+				mui.back = function(event) {
+					backButtonPress++;
+					if (backButtonPress > 1) {
+						plus.runtime.quit();
+					} else {
+						plus.nativeUI.toast('再按一次退出');
+					}
+					setTimeout(function() {
+						backButtonPress = 0;
+					}, 1000);
+					return false;
+				};
+				var tt = document.getElementById("tangram-suggestion--TANGRAM__1o-main");
+				tt.style.zIndex = "10";
+
+			});
+		</script>
+	
+
+
+	</head>
+	<body>
+		<div id="ret" style="height:0;"><%=shopArray %></div>
+		<!-- 缩放式侧滑（类手机QQ） -->
+		<!-- 侧滑导航根容器 -->
+		<div class="mui-off-canvas-wrap mui-draggable mui-scalable">
+			<!-- 菜单容器 <-->
+			<aside class="mui-off-canvas-left mui-transitioning" id="offCanvasSide">
+				<div class="mui-scroll-wrapper cehua">
+					<div class="mui-scroll">
+						<!-- 菜单具体展示内容 -->
+
+						<div class="touxiang" id="touxiang" style="background-image: url(images/touxiang.jpg);background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;"></div>
+
+						<ul class="mui-table-view" style="width: 100%;">
+							<li class="mui-table-view-cell border-none" id="dingdan"><a href="dingdan">订单</a></li>
+							<li class="mui-table-view-cell border-none" id="qianbao"><a href="qianbao">钱包</a></li>
+							<li class="mui-table-view-cell border-none" id="dianpu"><a href="dianpu">店铺</a></li>
+							<li class="mui-table-view-cell border-none" id="shezhi"><a href="shezhi">设置</a></li>
+						</ul>
+
 					</div>
-					<div id="searchResultPanel" class="searchResultPanel"></div>
-					<div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
-					<button type="button" data-loading-icon="mui-spinner mui-spinner-custom"
-					 class="mui-btn mui-btn-primary yybtn" id="yybtn">预约</button>
-					 <div id="refresh" class="refresh">返回</div>
 				</div>
-			</div>  
-			<div class="mui-off-canvas-backdrop"></div>
-	    </div>
-	  
-	  
-	  
-	</div>
-<script src="js/main.js"></script>
+			</aside>
+			<!-- 主页面容器 -->
+			<div class="mui-inner-wrap mui-transitioning">
+				<!-- 主页面标题 -->
+				<header class="mui-bar mui-bar-nav">
+					<a class="mui-icon mui-action-menu mui-icon-bars mui-pull-left" href="#offCanvasSide"></a>
+					<h1 class="mui-title">雲芯洗车</h1>
+				</header>
 
-</body>
+				<div class="mui-content mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<!-- 主界面具体展示内容 -->
+						<div id="allmap" class="allmap"></div>
+						<div class="sr">
+							<div class="point" id="SS"></div>
+							<input type="text" id="suggestId" class="mui-input-clear">
+						</div>
+						<div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+						<button type="button" data-loading-icon="mui-spinner mui-spinner-custom" class="mui-btn mui-btn-primary yybtn" id="gotowhere">去这里</button>
+						<div id="refresh" class="refresh">返回</div>
+					</div>
+				</div>
+				<div class="mui-off-canvas-backdrop"></div>
+			</div>
+
+
+
+		</div>	
+		<script src="js/main.js"></script>
+		<script>
+		</script>
+	</body>
 </html>

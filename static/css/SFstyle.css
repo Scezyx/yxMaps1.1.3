@@ -1,0 +1,94 @@
+/*全局通用*/
+.txtjz{text-align: center;}
+.huise{color: #8F8F94;}
+.hongse{color: red;}
+.lvse{color: green;}
+.text{font-size: 14px;}
+.pa{padding-top: 5px;}
+.pa_le{padding-left: 10px;}
+.pa_ri{padding-right: 10px;}
+.pad{padding: 10px;}
+.ov{overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.baise {color: #ffffff;}
+.baisebg{background-color: #FFFFFF;}
+.hongsebg{background-color: #e83636;color: #FFFFFF;}
+.bot_ra{border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;}
+.top_ra{border-top-left-radius: 5px;border-top-right-radius: 5px;}
+.but{width: 50%;border-radius: 5px;}
+.ma{margin: 10px;}
+.ma_top{margin-top: 10px;}
+.ma_top1{margin-top: 5px;}
+.ma_ftop{margin-top: -4px;}
+.bod_ra{border-radius: 5px;}
+.bgbaise{background-color: #FFFFFF;}
+.font-si{font-size: 11px;}
+
+
+
+
+/*登入*/
+.drbg{height: 160px;background-color: #418DEB;}
+.dr_user{width: 100px;margin-top: -50px;}
+.dr_kuang{margin:50px 20px;border-radius: 5px;}
+.dr_but{margin: 15px;}
+/*首页*/
+.jiugongge{width: 33.333333%;}
+.xxcat{overflow: auto;background-color: #FFFFFF;border-radius: 5px;margin-top: 5px;}
+.zbcat{overflow: auto;background-color: #FFFFFF;border-radius: 5px;margin-top: 5px;}
+.xxtz{width: 15%;padding: 10px;}
+.xxtz_img{width: 45px;padding-top: 5px;}
+.xxwz{width: 80%;padding: 10px;}
+.xxwz_p{margin-top: 10px;/*overflow: hidden;text-overflow: ellipsis;height: 60px;*/}
+.zbxx_img{width: 60px;padding-top: 50%;}
+.zbxx_wz{width: 80%;padding: 10px;}
+.mybg{background-color: #418DEB;height: 250px;}
+.userimg{border-radius: 50%;width: 100px;margin-top: 50px;}
+.xingxi{width: 70%;height: 80px;background-color: #FFFFFF;margin:-40px auto;border-radius: 5px;}
+.name{height: 40px;text-align: center;font-size: 20px;padding-top: 10px;}
+.zhiwei{border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;height: 40px;text-align: center;background-color: #418DEB;font-size: 20px;padding-top: 10px;color:#fff;}
+.myul{margin:120px 20px;border-radius: 5px;}
+
+/*查询搜索*/
+.zx_kuang{width: 64%;margin: 10px;}
+.zx_but{margin-top: 10px;margin-right: 25px;background-color: #418deb;border: #418DEB;}
+.zx_p{margin-left: 10px;}
+.zx_jr{margin: 10px;height:auto;}
+.zx_jr_but{background-color: #d7d7db;}
+.zx_jgkuang{background-color: #FFFFFF;border-radius: 5px;}
+
+
+/*个人任务查询*/
+.grjw_cat{background-color: #FFFFFF;border-radius: 5px;height: 150px;margin-top: 5px;}
+
+/*个人管理*/
+
+/*个人事务管理详情*/
+.grjwxq_div{background-color: #FFFFFF;border-radius: 5px;height: auto;}
+
+/*订单执行*/
+.jwrwzx_div{background-color: #FFFFFF;height: 200px;margin-top: 5px;}
+/*.jwrwzx_nr{width: 75%;height: 150px;padding-top: 10px;} 旧版样式*/
+.jwrwzx_p{width: 90%;font-size: 11px;}
+.jwrwzx_img{width: 60px;float: right;}
+
+
+/*订单执行详情*/
+.jwrwzx_xp_cj{background-color: #FFFFFF;height: 50px;border-radius: 5px;margin-top: 40px;}
+.jwrwzx_xp_qdcj{background-color:#FFFFFF;}
+.jwrwzx_xp_ma{margin-top: 40px;}
+
+/*处理*/
+.rwglpq_cat{height: 160px;background-color: #FFFFFF;border-radius: 5px;margin-top: 10px;}
+.rwglpq_tj{height: 60px;position: absolute;bottom: 20px;width: 60px;margin-left: 40%;border-radius: 50%;background-color: #418DEB;color: #FFFFFF;font-size: 30px;}
+
+
+/*详情/更改*/
+.xqgg_but{margin: 40px;width: 60%;}
+.xqgg_ry{margin: 10px 60px;}
+
+/*位置管理*/
+.wzgl_ul{margin: 40px;}
+.wzgl_ry{padding-right: 35%;}
+
+/*个人信息设置*/
+.grxx_but{width: 60%;margin-top: 20px;}

@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/SFstyle.css"/>
+		<style>
+			/*导航栏颜色和标题颜色*/
+			.mui-bar-nav{background-color: #418DEB;}
+			/*删除ul上下方横线*/
+			.mui-table-view:after{ height:0px}
+			.mui-table-view:before{ height:0px}
+			.mui-table-view-cell:after{background-color:#FFFFFF;}
+			/*修改按钮样式*/
+			.mui-btn, button, input[type=button], input[type=reset], input[type=submit]{padding: 4px 10px;}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left baise"></a>
+		    <h1 class="mui-title baise">订单确认</h1>
+		</header>
+		<div class="mui-content">
+		    <div class="ma grjwxq_div pa"><!--外框-->
+				<h3 style="margin: 20px;text-align: center;"></h3>
+				<form action="/doCon" method="POST" id="form1">
+				<ul class="mui-table-view">
+					<li style="height:0;">
+						<input type="text" style="height: 0;border:0px;color:#FFFFFF;" name="shop_id" value="<%=qs.shop_id %>">
+					</li>
+				    <li class="mui-table-view-cell huise">
+				    	<div class="mui-row">
+							<label class="mui-col-sm-4" style="margin: 10px 0px 0px;">
+								店铺名:
+							</label>
+							<input type="text" style="border:0;display: inline-block;width:auto;" name="shop_realname"  class="mui-col-sm-8" value="<%=qs.shop_realname %>">
+						</div>
+				    </li>
+				    <li class="mui-table-view-cell huise">
+				    	<div class="mui-row">
+							<label class="mui-col-sm-4 " style="margin: 10px 0px 0px;">
+								地址:
+							</label>
+							<input type="text" style="border:0;display: inline-block;width:auto;" name="address"  class="mui-col-sm-8" value="<%=qs.address %>">
+						</div>
+					</li>
+					<!--
+				    <li class="mui-table-view-cell huise">
+				    	<div class="mui-row">
+							<label class="mui-col-sm-4 ">
+								申请订单时间:
+							</label>
+							<input type="text" style="border:0;display: inline-block;width:auto;" name="order_time"  class="mui-col-sm-8" value="">
+						</div>
+					</li>
+					-->
+				    <li class="mui-table-view-cell huise">
+				    	<div class="mui-row">
+							<label class="mui-col-sm-4 ">
+								具体服务:
+							</label>
+							<div class="mui-col-sm-8">
+								<input type="text" style="border:0;display: inline-block;width:auto;" name="service"  class="mui-col-sm-8" value="">
+							</div>
+						</div>
+				    </li>
+				    <li class="mui-table-view-cell huise">
+				    	<div class="mui-row">
+							<label class="mui-col-sm-4 ">
+								金额:
+							</label>
+							<input type="text" style="border:0;display: inline-block;width:auto;" name="money"  class="mui-col-sm-8" value="100">
+						</div>
+				    </li>
+				    <li class="mui-table-view-cell huise">
+				    	<div class="mui-row">
+							<label class="mui-col-sm-4 ">
+								联系电话:
+							</label>
+							<input type="text" style="border:0;display: inline-block;width:auto;" name="phone"  class="mui-col-sm-8" value="<%=ui.phone %>">
+						</div>
+				    </li>
+				</ul>
+					<center>
+						<input  type="submit" class="mui-btn mui-btn-danger mui-btn-block xqgg_but" id="yybtn" value="确认下单">
+					</center>
+				</form>
+					
+				<br><!--div自适应高度br作为底部空隙-->
+			</div><!--外框结束-->
+			<!--删除任务-->
+			 
+			<!--删除任务结束-->
+		</div>		
+		
+		<script src="js/mui.min.js"></script>
+		<!--<script type="text/javascript">
+			mui.init();
+			//设置状态栏颜色如果ios无法正常运行请删除这段
+			function plusReady() {
+				// 设置系统状态栏背景为蓝色
+				plus.navigator.setStatusBarBackground("#007aff");
+				var ext = plus.webview.currentWebview();
+				console.info();
+				document.getElementById("shop_realname").innerHTML = ext.shop_realname;
+				document.getElementById("create_order_time").innerHTML = ext.create_time;
+				document.getElementById("address").innerHTML = ext.address;
+				document.getElementById("service_num").innerHTML = ext.service_length + "项";
+				var sn = document.getElementById("service_name");
+				var money_sum = 0;
+				for(var i=0;i<Number(ext.service_length);i++){
+					sn.innerHTML = sn.innerHTML + "<p></p>";
+					sn.children[i].innerHTML = ext.service_name[i] + '(' + ext.service_money[i].toFixed(1) + '元)';
+					money_sum += Number(ext.service_money[i].toFixed(1));
+				}
+				document.getElementById("money_sum").innerHTML = money_sum;
+				document.getElementById("shop_phone").innerHTML = ext.phone;
+				var username = JSON.parse(localStorage.getItem('username'));
+				// 设置系统状态栏样式为浅色文字
+				//plus.navigator.setStatusBarStyle("UIStatusBarStyleBlackOpaque");
+				document.getElementById("yybtn").addEventListener("tap" , function(){
+					//openImage(this.getAttribute("idIndex"));
+					
+					//console.info("idIndex:"+shop_id);
+					mui.post('http://ghq.vipgz1.idcfengye.com/car_wash/Orders', {
+						service_name:JSON.stringify(ext.service_name),
+						service_money:JSON.stringify(ext.service_money),
+						username:username,
+						create_time:ext.create_time,
+						price:money_sum,
+						shop_id:ext.shop_id,
+						shop_realname:ext.shop_realname,
+						address:ext.address,
+						shop_phone:ext.phone
+					}, function(data) {
+						//服务器返回响应，根据响应结果，分析是否登录成功；
+						
+					}, 'text');
+				});
+				
+			}
+			if(window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener("plusready", plusReady, false);
+			} //设置状态栏结束
+
+		</script>
+		-->
+	</body>
+
+</html>

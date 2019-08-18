@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>店铺详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<style type="text/css">
+			.hauto{
+				height: 200px;
+				display: block;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title" id="shop_name">店铺详情</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-slider" id="slider">
+				<div class="mui-slider-group mui-slider-loop">
+						<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<a href="#">
+								<img src="images/quan.png" class="hauto" id="pic_top"/>
+							</a>
+						</div>
+						<!-- 第一张 -->
+						<div class="mui-slider-item">
+							<a href="#">
+								<img src="images/qq.png" class="hauto" id="pic1"/>
+							</a>
+						</div>
+						<!-- 第二张 -->
+						<div class="mui-slider-item">
+							<a href="#">
+								<img src="images/weixin.png" class="hauto" id="pic2"/>
+							</a>
+						</div>
+						<!-- 第三张 -->
+						<div class="mui-slider-item">
+							<a href="#">
+								<img src="images/sinaweibo.png" class="hauto" id="pic3"/>
+							</a>
+						</div>
+						<!-- 第四张 -->
+						<div class="mui-slider-item">
+							<a href="#">
+								<img src="images/qq.png" class="hauto" id="pic4"/>
+							</a>
+						</div>
+						<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<a href="#">
+								<img src="images/quan.png" class="hauto" id="pic_bottom"/>
+							</a>
+						</div>
+					</div>
+					<div class="mui-slider-indicator">
+						<div class="mui-indicator mui-active"></div>
+						<div class="mui-indicator"></div>
+						<div class="mui-indicator"></div>
+						<div class="mui-indicator"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui.plusReady(function() {
+				var ext = plus.webview.currentWebview();
+				console.info(ext.shop_id);
+				//获得slider插件对象
+				var gallery = mui('.mui-slider');
+				gallery.slider({
+				  interval:5000//自动轮播周期，若为0则不自动播放，默认为0；
+				});
+				pic_setting();
+				
+				//allshop_list();
+
+				/* 设置图片轮播内容 */
+				function pic_setting(){
+					for(var i=1;i<=4;i++){
+						var pid = "pic"+i;
+						document.getElementById(pid).src="http://ghq.free.idcfengye.com/car_wash/upload/cover"+i+"s"+ext.shop_id+".png";
+					}
+					document.getElementById("pic_top").src="http://ghq.free.idcfengye.com/car_wash/upload/cover4"+"s"+ext.shop_id+".png";
+					document.getElementById("pic_bottom").src="http://ghq.free.idcfengye.com/car_wash/upload/cover1"+"s"+ext.shop_id+".png";
+				}
+			});
+			
+			
+			
+			function allshop_list() {
+				mui.get('http://ghq.free.idcfengye.com/car_wash/All_Shop_List', {
+			
+				}, function(data) {
+					//服务器返回响应，根据响应结果，分析是否登录成功；
+					console.info('index data:' + data);
+					localStorage.setItem('all_shop', data);
+				}, 'text');
+			};
+			
+			//document.getElementById("pic1").src="http://ghq.free.idcfengye.com/car_wash/upload/cover"+ext.shop_id+".png"
+			
+		</script>
+	</body>
+
+</html>

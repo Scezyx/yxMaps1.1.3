@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>商家认证</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<script type="text/javascript" src="http://api.map.baidu.com/geocoder/v2/?output=json&ak=fuDX7e06bRuvDz91uE9bK6lNY9HbPpcE&address=重庆市"></script>
+	</head>
+
+	<body>
+		
+		<form action="/doSj" method="POST" class="box">
+			<div class="real_username">
+				<input type="text"  placeholder="请输入店铺真实名称" name="shop_realname">
+			</div>
+			<div class="ID">
+				<input type="text"  placeholder="请输入身份证号" name="ID">
+			</div>
+			<div>
+				<input type="text"  placeholder="店铺详细地址" name="address">
+			</div>
+			<div class="an">
+				<a href="javascript:history.go(-1)">取消</a>
+				<input type="submit" value="下一步" id="btn">
+			</div>
+		</form>
+<!--		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">店铺列表</h1>
+		</header>
+		<div class="mui-content">
+			<div class="title" style="margin-top: 10px;margin-bottom: 10px;margin-left: 10px;">
+				为您推荐以下店铺
+			</div>
+			<ul class="mui-table-view mui-table-view-chevron" id="shop_all_list">
+				<li class="mui-table-view-cell mui-media">
+					<a class="mui-navigate-right">
+						<img class="mui-media-object mui-pull-left" src="../images/cbd.jpg">
+						<div class="mui-media-body">
+							CBD
+							<p class='mui-ellipsis'>烤炉模式的城，到黄昏，如同打翻的调色盘一般.</p>
+						</div>
+					</a>
+				</li>
+			</ul>
+			
+		</div>
+		
+		
+		<script src="js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui.plusReady(function() {
+				var dt = localStorage.getItem('all_shop');
+				//对象包括三个值：0店铺简介、1店铺id、2图片id、3店铺名称
+				dt = JSON.parse(dt);
+				//console.info(dt.s1[3]);
+				function createGrid(idIndex,ve){
+					var li = document.createElement("li");
+					li.id = "shop" + idIndex;
+					//console.info(li.id);
+					li.setAttribute("idIndex" , idIndex);
+					li.className = "mui-table-view-cell mui-media";
+					//li.style.backgroundColor = "red";
+					var cover_top_path = "http://ghq.free.idcfengye.com/car_wash/upload/cover_top"+ve[2]+".png";
+					li.innerHTML = "<a class=\"mui-navigate-right\"><img src='loading.gif' class=\"mui-media-object mui-pull-left\" /><div class=\"mui-media-body\" id=\"name" + idIndex 
+						+ "\" >店铺名<p class=\"mui-ellipsis\" id=\"jianjie" + idIndex + "\">处理中</p></div></a>";
+					document.getElementById("shop_all_list").appendChild(li);
+					/* 店名动态给值 */
+					li.children[0].children[1].innerHTML=ve[3]+"<p class=\"mui-ellipsis\" id=\"jianjie" + idIndex + "\">处理中</p>";
+					li.children[0].children[1].children[0].innerHTML=ve[0];
+					li.children[0].children[0].src = "http://ghq.free.idcfengye.com/car_wash/upload/cover_top"+ve[1]+".png";
+					document.getElementById(li.id).addEventListener("tap" , function(){
+						//openImage(this.getAttribute("idIndex"));
+						var shop_id = parseInt(this.getAttribute("idIndex"));
+						mui.openWindow({
+							url: 'dianpu_xiangqing.html',
+							id: 'dianpu_xiangqing',
+							show: {
+								aniShow: 'slide-in-left', //页面显示动画，默认为”slide-in-right“；
+								duration: '100' //页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
+							},
+							extras: {
+								shop_id: shop_id
+							}
+						});
+					});
+				}
+				//遍历对象
+				var i = 0;
+				Object.keys(dt).forEach(function(key){
+					var ve = (key,dt[key]);
+					//console.info(ve[0]);
+					createGrid(i,ve);
+					i++;
+				});
+			});
+		</script>
+-->		
+	</body>
+
+</html>
